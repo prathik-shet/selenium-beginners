@@ -46,7 +46,7 @@ phone.send_keys('9999999999')
 
 # Sleep is one way to wait for things to load
 # Future tutorials cover explicit, implicit and ajax waits
-time.sleep(3)
+time.sleep(5)
 
 # Close the browser window
 driver.close()
