@@ -1,33 +1,24 @@
 """
-Learn to navigate to a URL using Selenium
+Learn to navigate to a URL using Selenium and Pytest
 
-DISCLAIMER: This code is aimed at Selenium BEGINNERS
-For more advanced tutorials and to learn how Qxf2 writes GUI automation, please visit our:
-a) Our GUI automation guides: http://qxf2.com/gui-automation-diy
-b) Other GitHub repos: https://github.com/qxf2
-
-AUTHOR: Avinash Shetty
-Contact: avinash@qxf2.com
-
-SCOPE:
-1) Launch Firefox Driver
-2) Navigate to Qxf2 Tutorial page
-3) Check the page title
-4) Close the browser
+AUTHOR: Avinash Shetty (Modified for Pytest)
 """
+
+import pytest
 from selenium import webdriver
 
-# Create an instance of Firefox WebDriver
-browser = webdriver.Firefox()
+@pytest.fixture
+def browser():
+    """Setup WebDriver and close after test"""
+    driver = webdriver.Firefox()
+    yield driver  # This will return the driver instance to the test function
+    driver.quit()  # Cleanup after the test
 
-# KEY POINT: The driver.get method will navigate to a page given by the URL
-browser.get('http://qxf2.com/selenium-tutorial-main')
+def test_qxf2_navigation(browser):
+    """Test to check if Qxf2 tutorial page opens correctly"""
+    url = "http://qxf2.com/selenium-tutorial-main"
+    expected_title = "Qxf2 Services: Selenium training main"
 
-# Check if the title of the page is proper
-if(browser.title=="Qxf2 Services: Selenium training main"):
-    print ("Success: Qxf2 Tutorial page launched successfully")
-else:
-    print ("Failed: Qxf2 Tutorial page Title is incorrect")
+    browser.get(url)
+    assert browser.title == expected_title, "Page title does not match!"
 
-# Quit the browser window
-browser.quit()
